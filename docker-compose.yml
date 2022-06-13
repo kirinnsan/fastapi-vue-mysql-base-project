@@ -1,0 +1,48 @@
+version: "3.3"
+services:
+
+  db:
+    image: mysql:5.7
+    container_name: mysql_container
+    volumes:
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf # MySQLの設定ファイル指定
+    ports:
+      - 3306:3306
+    env_file:
+      - .env
+    environment:
+      TZ: Asia/Tokyo
+
+  backend:
+    # image: '${DOCKER_IMAGE_BACKEND?Variable not set}:${TAG-latest}'
+    depends_on:
+      - db
+    env_file:
+      - .env
+    environment:
+      - SERVER_NAME=${DOMAIN?Variable not set}
+      - SERVER_HOST=https://${DOMAIN?Variable not set}
+      # Allow explicit env var override for tests
+      - SMTP_HOST=${SMTP_HOST}
+    build:
+      context: ./backend
+      dockerfile: backend.dockerfile
+      args:
+        INSTALL_DEV: ${INSTALL_DEV-false}
+    volumes:
+      - ./backend/app:/app
+    # command: bash -c "while true; do sleep 1; done"  # Infinite loop to keep container live doing nothing
+    # command: ./prestart.sh
+    tty: true
+    stdin_open: true
+
+  frontend:
+    image: '${DOCKER_IMAGE_FRONTEND?Variable not set}:${TAG-latest}'
+    build:
+      context: ./frontend
+      args:
+        FRONTEND_ENV: ${FRONTEND_ENV-production}
+    volumes:
+      - ./frontend:/app
+    tty: true
+    stdin_open: true

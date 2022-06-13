@@ -1,0 +1,28 @@
+DOMAIN=localhost
+
+DOCKER_IMAGE_BACKEND=backend
+DOCKER_IMAGE_CELERYWORKER=celeryworker
+DOCKER_IMAGE_FRONTEND=frontend
+
+# Backend
+BACKEND_CORS_ORIGINS=["http://localhost", "http://localhost:4200", "http://localhost:3000", "http://localhost:8080", "https://localhost", "https://localhost:4200", "https://localhost:3000", "https://localhost:8080", "http://dev.real-word.com", "https://stag.real-word.com", "https://real-word.com", "http://local.dockertoolbox.tiangolo.com", "http://localhost.tiangolo.com"]
+PROJECT_NAME=set_this
+SECRET_KEY=set_this
+FIRST_SUPERUSER=set_this
+FIRST_SUPERUSER_PASSWORD=set_this
+SMTP_TLS=True
+SMTP_PORT=587
+SMTP_HOST=
+SMTP_USER=
+SMTP_PASSWORD=
+EMAILS_FROM_EMAIL=set_this
+
+USERS_OPEN_REGISTRATION=False
+
+# MySQL
+MYSQL_ROOT_PASSWORD=root
+MYSQL_DATABASE=root
+MYSQL_HOST=db
+MYSQL_USER=dev_user
+MYSQL_PASSWORD=xxxxxxx
+MYSQL_PORT=3306
